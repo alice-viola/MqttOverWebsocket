@@ -1,0 +1,29 @@
+version: '3'
+services:
+  mosquitto:
+    labels:
+      name: "mosquitto"
+    image: "toke/mosquitto"
+    ports:
+      - "1883:1883"
+      - "9001:9001"
+  mosquitto_sub:
+    labels:
+      name: mosquitto_sub
+    build: 
+      context: ./sub  
+      dockerfile: ./Dockerfile
+  mosquitto_pub:
+    labels:
+      name: mosquitto_pub
+    build: 
+      context: ./pub  
+      dockerfile: ./Dockerfile
+  server:
+    labels:
+      name: server
+    ports:
+      - "3003:3003"
+    build: 
+      context: ./server  
+      dockerfile: ./Dockerfile

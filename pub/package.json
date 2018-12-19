@@ -1,0 +1,15 @@
+{
+  "name": "pub",
+  "version": "1.0.0",
+  "description": "",
+  "main": "pub.js",
+  "scripts": {
+    "start": "node pub.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mqtt": "^2.18.8"
+  }
+}

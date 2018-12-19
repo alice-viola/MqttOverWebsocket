@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Mqtt Over WS</title>
+    <meta name="author" content="Amedeo Setti, ProM Facility">
+    <meta name="author" content="Luca Martinelli, ProM Facility">
+</head>
+<script type="text/javascript" src="mqttws31.min.js"></script>
+<body>
+    <div id="ROOT">
+        <div id="Messages"></div>
+    </div>
+</body>
+<script>
+let stringmex = "";
+
+// called when the client connects
+function onConnect() {
+  // Once a connection has been made, make a subscription and send a message.
+  console.log("onConnect");
+  client.subscribe("test");
+  message = new Paho.MQTT.Message("Hello");
+  message.destinationName = "test";
+  client.send(message);
+}
+
+// called when the client loses its connection
+function onConnectionLost(responseObject) {
+  if (responseObject.errorCode !== 0) {
+    console.log("onConnectionLost:"+responseObject.errorMessage);
+  }
+}
+
+// called when a message arrives
+function onMessageArrived(message) {
+  console.log("onMessageArrived:" + message.payloadString);
+
+  let m = document.getElementById("Messages");
+  stringmex += message.payloadString + "\n\n";
+  m.innerHTML = stringmex;
+}
+
+
+client = new Paho.MQTT.Client("localhost", Number(9001), "browser");
+// set callback handlers
+client.onConnectionLost = onConnectionLost;
+client.onMessageArrived = onMessageArrived;
+
+// connect the client
+client.connect({onSuccess:onConnect});
+
+
+</script>
